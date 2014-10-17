@@ -359,7 +359,7 @@ test('DaysOfWeekDisabled', function(){
 test('BeforeShowDay', function(){
 
     var beforeShowDay = function(date) {
-        var dateTime = UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()).getTime();
+        var dateTime = UTCDate(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
         var dateTime25th = UTCDate(2012, 9, 25).getTime();
         var dateTime26th = UTCDate(2012, 9, 26).getTime();
         var dateTime27th = UTCDate(2012, 9, 27).getTime();
