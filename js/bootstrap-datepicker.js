@@ -30,6 +30,14 @@
 		return UTCDate(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
 	}
 
+	// Checking whether the date is in Daylight Saving Time
+    function isDLS(dt) {
+	    var jan = new Date(dt.getFullYear(), 0, 1);
+	    var jul = new Date(dt.getFullYear(), 6, 1);
+	    var stdTimezoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+
+	    return dt.getTimezoneOffset() < stdTimezoneOffset;
+	}
 
 	// Picker object
 
@@ -345,7 +353,12 @@
 		},
 
 		_utc_to_local: function(utc){
-			return new Date(utc.getTime() + (utc.getTimezoneOffset()*60000));
+			var local = new Date(utc.getTime() + (utc.getTimezoneOffset()*60000));
+			if (!isDLS(local) && isDLS(utc))
+				local = new Date(local.getTime() + (60 * 60000))
+			if (isDLS(local) && !isDLS(utc))
+				local = new Date(local.getTime() - (60 * 60000))
+			return local;
 		},
 		_local_to_utc: function(local){
 			return new Date(local.getTime() - (local.getTimezoneOffset()*60000));
